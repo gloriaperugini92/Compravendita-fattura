@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estimo · Compravendita</title>
+<style>
+:root{--bg:#f3f6f1;--card:#fff;--ink:#1c2a39;--mut:#5b6b7a;--g:#2f8f5b;--gl:#e3f4ea;--y:#f4b733;--r:#d94b3a;--rl:#fdeae7;--line:#d9e0d6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14201b;--card:#1d2d26;--ink:#eef3ee;--mut:#a3b4aa;--gl:#1d3d2d;--rl:#442320;--line:#2f443a}}
+:root[data-theme="dark"]{--bg:#14201b;--card:#1d2d26;--ink:#eef3ee;--mut:#a3b4aa;--gl:#1d3d2d;--rl:#442320;--line:#2f443a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;line-height:1.5}
+main{max-width:620px;margin:0 auto;padding:18px 16px 40px}
+h1{font-size:1.7rem;line-height:1.15;margin:6px 0 4px}
+h2{font-size:1.2rem;line-height:1.3;margin:0 0 14px}
+p{margin:0 0 10px}
+.mut{color:var(--mut)}
+.hero{background:var(--g);color:#fff;border-radius:22px 22px 22px 6px;padding:22px 20px;margin-bottom:18px}
+.hero p{margin:0;opacity:.92}
+.big{display:block;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;color:var(--ink);font:inherit;cursor:pointer;transition:transform .12s,border-color .12s}
+.big:hover{border-color:var(--g)}.big:active{transform:scale(.98)}
+.big b{font-size:1.1rem;display:block}
+.ico{font-size:1.6rem;float:left;margin-right:12px;line-height:1.2}
+.bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0 16px}
+.bar i{display:block;height:100%;background:var(--y);width:0;transition:width .3s}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;color:var(--mut)}
+.link{background:none;border:0;color:var(--mut);font:inherit;cursor:pointer;padding:6px 0;text-decoration:underline}
+.card{background:var(--card);border-radius:18px;padding:18px;border:2px solid var(--line)}
+.opt{display:block;width:100%;text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:10px;color:var(--ink);font:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--g)}
+.opt:disabled{cursor:default}
+.opt.ok{background:var(--gl);border-color:var(--g)}
+.opt.ko{background:var(--rl);border-color:var(--r)}
+.fb{border-radius:14px;padding:14px;margin:6px 0 12px;border-left:6px solid}
+.fb.ok{background:var(--gl);border-color:var(--g)}.fb.ko{background:var(--rl);border-color:var(--r)}
+.fb b{display:block;margin-bottom:4px}
+.btn{display:block;width:100%;background:var(--ink);color:var(--bg);border:0;border-radius:14px;padding:14px;font:inherit;font-weight:bold;cursor:pointer}
+.btn.y{background:var(--y);color:#2a1f00}
+input{width:100%;font:inherit;font-size:1.3rem;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--bg);color:var(--ink);margin:6px 0 12px}
+.steps{background:var(--bg);border-radius:12px;padding:10px 14px;font-size:.95rem;margin-top:8px}
+.num{font-size:3rem;font-weight:bold;line-height:1}
+.chip{display:inline-block;background:var(--y);color:#2a1f00;border-radius:20px;padding:2px 12px;font-weight:bold;font-size:.85rem}
+.ref{font-size:.95rem}.ref td{padding:3px 12px 3px 0;vertical-align:top}
+button:focus-visible,input:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+// [domanda, indice risposta giusta, [[opzione, commento], ...]]
+const Q=[
+["Che cosa si trasferisce con il contratto di compravendita?",0,[["La proprietà di un bene (o di un altro diritto) in cambio di un prezzo in denaro","Esatto: trasferimento di proprietà + corrispettivo in denaro sono i due elementi che definiscono la compravendita."],["Solo il possesso temporaneo del bene","No: il possesso temporaneo è un prestito o un affitto. Nella compravendita cambia il proprietario."],["La proprietà del bene, senza alcun pagamento","No: senza un prezzo in denaro manca il corrispettivo, che è parte della definizione di compravendita."]]],
+["Quali elementi devono essere definiti nel contratto di compravendita?",1,[["Solo il prezzo e la data","Troppo poco: il prezzo da solo non basta, bisogna precisare anche cosa si vende e come."],["Merce, modalità di consegna e pagamento","Esatto: sono i tre pilastri del contratto, ciascuno con le sue varianti."],["Solo la merce e il nome del vettore","Il vettore è un dettaglio della consegna; manca il pagamento."]]],
+["In che cosa si misura la quantità della merce?",2,[["Solo in euro","L'euro misura il prezzo, non la quantità."],["In categoria merceologica","La categoria riguarda la qualità, non la quantità."],["Peso, volume o numero","Esatto: ad esempio quintali, litri o pezzi."]]],
+["Una conserva di pomodoro è pagata in base alla sostanza secca. Quale aspetto della merce è stato definito?",0,[["La qualità, tramite parametri analitici","Esatto: la qualità può essere descritta anche con parametri misurabili, come la sostanza secca."],["La quantità in numero di pezzi","No: qui il prezzo dipende da una caratteristica analitica del prodotto, quindi dalla qualità."],["L'imballaggio","L'imballaggio riguarda il contenitore, non il contenuto."]]],
+["Il compratore compra la merce \"visto e piaciuto\". Che cosa significa?",1,[["Che può restituirla quando vuole","Non è questo il significato: nella mappa è una forma per definire la qualità."],["Che la qualità è quella che ha visto e accettato","Esatto: è un modo di definire la qualità, insieme a descrizione, campioni e categoria merceologica."],["Che il prezzo sarà deciso dopo","No: riguarda la qualità, non il prezzo."]]],
+["Il sacchetto del pane e la bottiglia di vetro sono imballaggi...",2,[["a rendere","No: a rendere significa obbligo di restituzione al venditore."],["forniti dal compratore","No: qui li fornisce il venditore."],["a perdere","Esatto: andranno persi per il venditore, perché non tornano indietro."]]],
+["Il vino in bag in box: si paga anche il contenitore, indicato a parte in fattura. Che imballaggio è?",1,[["A rendere","No: il bag in box non torna al venditore."],["A perdere fatturato separatamente","Esatto: a perdere, ma con un costo addebitato separatamente al compratore."],["Sfuso","No: sfuso significa senza imballaggio."]]],
+["Il cliente arriva in cantina con la propria damigiana. Che imballaggio è?",0,[["Fornito dal compratore","Esatto: il contenitore è del compratore."],["A rendere","No: a rendere indica un imballaggio del venditore da restituirgli."],["A perdere","No: la damigiana non è persa da nessuno, il cliente se la porta via."]]],
+["Che cosa significa franco magazzino venditore?",1,[["La proprietà passa al compratore solo all'arrivo a destinazione","No: questo è il franco magazzino compratore."],["La merce diventa del compratore già nel magazzino del venditore, prima del trasporto","Esatto: da quel momento il bene è del compratore, anche prima del viaggio."],["Il venditore paga sempre il trasporto","No: la clausola riguarda il passaggio di proprietà, non chi paga."]]],
+["Che cosa significa franco magazzino compratore?",2,[["La proprietà passa quando la merce parte dal venditore","No: così sarebbe franco magazzino venditore."],["Il compratore ritira sempre la merce di persona","No: il trasporto può farlo venditore, acquirente o vettore."],["La proprietà cambia una volta che la merce è consegnata","Esatto: fino alla consegna la merce resta del venditore."]]],
+["Quando il pagamento è \"dilazionato\"?",0,[["Quando si paga dopo la consegna, in tempi concordati","Esatto: può esserci anche un acconto iniziale."],["Quando si paga prima della consegna","No: quello è il pagamento anticipato."],["Quando si paga nel momento della consegna","No: quello è il pagamento alla consegna."]]],
+["Che formato ha la fattura elettronica e dove transita?",1,[["PDF inviato per email","No: la mail non è il canale ufficiale."],["File XML trasmesso tramite il Sistema di Interscambio (SdI) dell'Agenzia delle Entrate","Esatto: il file XML passa dal SdI."],["Foglio Excel caricato sul sito del comune","No: né Excel né il comune."]]],
+["La partita IVA è...",2,[["Un codice di 8 lettere","No: è numerica."],["Il codice fiscale della persona","No: la P.IVA identifica l'azienda."],["Un codice univoco di 11 cifre che identifica l'azienda","Esatto."]]],
+["Che cos'è l'imponibile in fattura?",0,[["Il prezzo IVA esclusa","Esatto: l'IVA si calcola sull'imponibile. Esempio della mappa: imponibile 80 €."],["Il prezzo IVA inclusa","No: quello è il totale in fattura."],["L'importo dell'IVA","No: l'IVA è l'imposta calcolata sull'imponibile."]]],
+["Chi paga l'IVA e chi la versa allo Stato?",1,[["La paga il venditore e la versa il compratore","È al contrario."],["La paga il compratore, la versa il venditore","Esatto: il compratore la paga nel totale, il venditore la versa allo Stato."],["La pagano e la versano entrambi","No: i ruoli sono distinti."]]],
+["Quando serve lo scontrino (elettronico) al posto della fattura?",2,[["Sempre, per ogni vendita","No."],["Solo per le vendite tra aziende","No: tra aziende si usa la fattura."],["Solo se la vendita è al dettaglio","Esatto: contiene dati del venditore, numero e data, beni e quantità, totale di cui IVA."]]],
+["Che cos'è il DDT e quando va emesso?",1,[["Documento di pagamento, emesso dopo la consegna","No: non riguarda il pagamento."],["Documento di trasporto, emesso prima dell'inizio del trasporto","Esatto: serve alla consegna con fattura differita."],["Dichiarazione dei redditi trimestrale","No: DDT sta per Documento di Trasporto."]]],
+["Una fattura differita: quale documento serve alla consegna?",0,[["Il DDT","Esatto: viaggia con la merce, la fattura arriva dopo."],["Lo scontrino","No: lo scontrino è per la vendita al dettaglio."],["Nessun documento","No: il trasporto richiede il DDT."]]]
+];
+const $=s=>document.querySelector(s),app=$('#app');
+const sh=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const eur=n=>n.toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+let S;
+function home(){
+ app.innerHTML=`<div class="hero"><h1>Compravendita</h1><p>Allenati per l'interrogazione di Estimo: merce, consegna, pagamento e documenti.</p></div>
+ <button class="big" id="b1"><span class="ico">🌾</span><b>Quiz</b><span class="mut">8 domande a caso. Ogni risposta ha il suo commento.</span></button>
+ <button class="big" id="b2"><span class="ico">🧮</span><b>Calcola l'IVA</b><span class="mut">6 problemi: IVA, totale e scorporo.</span></button>
+ <button class="big" id="b3"><span class="ico">📒</span><b>Ripasso rapido calcolo IVA</b></button>`;
+ $('#b1').onclick=()=>start('quiz');$('#b2').onclick=()=>start('iva');$('#b3').onclick=ripasso;
+}
+function ripasso(){
+ app.innerHTML=`<div class="top"><button class="link" id="h">‹ Menu</button></div><h2>Ripasso rapido calcolo IVA</h2>
+ <div class="card"><table class="ref"><tr><td>Imponibile</td><td><b>80,00 €</b></td></tr><tr><td>Aliquota</td><td><b>10%</b></td></tr><tr><td>IVA</td><td>80 × 10 / 100 = <b>8,00 €</b></td></tr><tr><td>Totale</td><td>80 + 8 = <b>88,00 €</b></td></tr></table>
+ <p class="mut" style="margin-top:12px">L'IVA si calcola sull'imponibile, si paga nel totale e il venditore la versa allo Stato. Per lo scorporo si fa l'operazione inversa: imponibile = totale ÷ (1 + aliquota/100).</p></div>`;
+ $('#h').onclick=home;
+}
+function start(m){
+ S={m,i:0,ok:0,items:m==='quiz'?sh(Q).slice(0,8):Array.from({length:6},(_,i)=>mkIva(i%3))};
+ show();
+}
+function head(){
+ const n=S.items.length;
+ return `<div class="top"><button class="link" id="h">‹ Menu</button><span>${S.i+1} di ${n} · <span class="chip">${S.ok} ✓</span></span></div><div class="bar"><i style="width:${S.i/n*100}%"></i></div>`;
+}
+function show(){
+ if(S.i>=S.items.length)return end();
+ S.m==='quiz'?showQ():showIva();
+}
+function showQ(){
+ const q=S.items[S.i],opts=sh(q[2].map((o,k)=>({t:o[0],c:o[1],ok:k===q[1]})));
+ app.innerHTML=head()+`<div class="card"><h2>${q[0]}</h2><div id="o"></div><div id="f"></div></div>`;
+ $('#h').onclick=home;
+ opts.forEach(o=>{
+  const b=document.createElement('button');b.className='opt';b.textContent=o.t;
+  b.onclick=()=>{
+   [...$('#o').children].forEach((x,k)=>{x.disabled=true;if(opts[k].ok)x.classList.add('ok')});
+   if(!o.ok)b.classList.add('ko');else S.ok++;
+   const right=opts.find(x=>x.ok);
+   $('#f').innerHTML=o.ok?`<div class="fb ok"><b>Giusto! 🎯</b>${o.c}</div>`
+    :`<div class="fb ko"><b>Non proprio</b>${o.c}</div><div class="fb ok"><b>La risposta giusta</b>${right.c}</div>`;
+   const n=document.createElement('button');n.className='btn';n.textContent=S.i+1<S.items.length?'Avanti':'Vedi il risultato';
+   n.onclick=()=>{S.i++;show()};$('#f').appendChild(n);n.scrollIntoView({block:'nearest'});
+  };
+  $('#o').appendChild(b);
+ });
+}
+const IT=[["q di grano",10,40],["L di olio d'oliva",5,12],["kg di miele",8,20],["q di fieno",6,15],["L di vino",2,6],["q di mele",30,80]];
+function mkIva(t){
+ const a=[4,10,22][ri(0,2)];
+ if(t===2){const imp=ri(2,40)*50,tot=imp*(100+a)/100;return{t,a,imp,tot,ans:imp,txt:`Una fattura riporta un totale di <b>${eur(tot)}</b>, IVA al <b>${a}%</b> compresa. Calcola l'imponibile (scorporo).`,
+  st:`Imponibile = totale ÷ (1 + ${a}/100) = ${eur(tot)} ÷ ${(1+a/100).toFixed(2).replace('.',',')} = <b>${eur(imp)}</b>.<br>Controllo: IVA = ${eur(tot)} − ${eur(imp)} = ${eur(tot-imp)}.`,
+  hint:`Errore tipico: togliere il ${a}% dal totale. Il ${a}% va calcolato sull'imponibile, non sul totale, quindi si divide per ${(1+a/100).toFixed(2).replace('.',',')}.`}}
+ const x=IT[ri(0,IT.length-1)],q=ri(2,20),p=ri(x[1],x[2]),imp=q*p,iva=Math.round(imp*a)/100,tot=imp+iva;
+ const base=`Vendi <b>${q} ${x[0]}</b> a <b>${p} €</b> per unità. Imponibile: <b>${eur(imp)}</b>, aliquota IVA <b>${a}%</b>.`;
+ const st=`Imponibile = ${q} × ${p} = ${eur(imp)}.<br>IVA = ${eur(imp)} × ${a} / 100 = <b>${eur(iva)}</b>.<br>Totale = ${eur(imp)} + ${eur(iva)} = <b>${eur(tot)}</b>.`;
+ return t===0?{t,ans:iva,txt:base+' Calcola l\'<b>IVA</b>.',st,hint:'Ricorda: IVA = imponibile × aliquota / 100. Non confonderla con il totale, che è imponibile + IVA.'}
+  :{t,ans:tot,txt:base+' Calcola il <b>totale</b> in fattura.',st,hint:'Il totale è imponibile + IVA. Se hai ottenuto solo l\'IVA, ti manca l\'ultimo passaggio: somma l\'imponibile.'};
+}
+function showIva(){
+ const p=S.items[S.i];
+ app.innerHTML=head()+`<div class="card"><h2>${p.txt}</h2><label class="mut" for="v">La tua risposta in euro</label><input id="v" inputmode="decimal" autocomplete="off" placeholder="es. 12,50"><div id="f"></div><button class="btn y" id="c">Controlla</button></div>`;
+ $('#h').onclick=home;
+ const go=()=>{
+  const v=parseFloat($('#v').value.replace(/\./g,'').replace(',','.')),
+  r=$('#v').value.trim()===''||isNaN(v);
+  if(r){$('#f').innerHTML='<div class="fb ko"><b>Scrivi un numero</b>Inserisci l\'importo in euro, ad esempio 12,50.</div>';return}
+  const ok=Math.abs(v-p.ans)<0.011;if(ok)S.ok++;
+  $('#v').disabled=true;
+  $('#f').innerHTML=ok?`<div class="fb ok"><b>Esatto! 🎯</b>Ecco il ragionamento completo:<div class="steps">${p.st}</div></div>`
+   :`<div class="fb ko"><b>Hai scritto ${eur(v)}, la risposta è ${eur(p.ans)}</b>${p.hint}<div class="steps">${p.st}</div></div>`;
+  const b=$('#c');b.className='btn';b.textContent=S.i+1<S.items.length?'Avanti':'Vedi il risultato';
+  b.onclick=()=>{S.i++;show()};b.scrollIntoView({block:'nearest'});
+ };
+ $('#c').onclick=go;$('#v').onkeydown=e=>{if(e.key==='Enter'&&!$('#v').disabled)go()};
+ $('#v').focus();
+}
+function end(){
+ const n=S.items.length,pc=S.ok/n,msg=pc===1?'Perfetto! Sei pronto per l\'interrogazione. 🏆':pc>=.7?'Ottimo lavoro, ancora un giro per consolidare.':pc>=.4?'Buon inizio: rileggi i commenti e riprova.':'Si impara sbagliando: riprova leggendo bene i commenti.';
+ app.innerHTML=`<div class="card" style="text-align:center"><div class="num">${S.ok}/${n}</div><h2 style="margin-top:10px">${msg}</h2><button class="btn y" id="r" style="margin-bottom:10px">Riprova</button><button class="btn" id="h">Torna al menu</button></div>`;
+ $('#r').onclick=()=>start(S.m);$('#h').onclick=home;
+}
+home();
+</script>
+</body>
+</html>
